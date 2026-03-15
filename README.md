@@ -1,0 +1,2 @@
+# apex
+Official Implementation for "From Adaptation to Generalization: Adaptive Visual Prompting for Medical Image Segmentation" [CVPR 2026 Findings]
