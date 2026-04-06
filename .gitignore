@@ -21,6 +21,7 @@ outputs/
 *.pt
 *.onnx
 *.bin
+*.npz
 
 # ── Datasets ───────────────────────────────────────────────
 dataset_exp/
