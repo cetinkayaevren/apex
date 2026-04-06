@@ -1,0 +1,49 @@
+# ── Python ──────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# ── Virtual / Conda Environments ───────────────────────────
+venv/
+env/
+envs/
+.venv/
+.conda/
+
+# ── Weights & Model Outputs ────────────────────────────────
+outputs/
+*.pth
+*.pt
+*.onnx
+*.bin
+
+# ── Datasets ───────────────────────────────────────────────
+dataset_exp/
+
+# ── Logs ───────────────────────────────────────────────────
+*.log
+
+# ── Jupyter Notebooks ──────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── IDE / Editor ───────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS Files ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Misc ───────────────────────────────────────────────────
+*.zip
+*.tar.gz
+*.rar

@@ -1,0 +1,36 @@
+# ── Core Deep Learning ──────────────────────────────────────
+torch>=1.12
+torchvision>=0.13
+torchmetrics>=0.11
+
+# ── Numerical / Scientific ──────────────────────────────────
+numpy>=1.22
+scipy>=1.7
+scikit-learn>=1.0
+pandas>=1.4
+
+# ── Image Processing ───────────────────────────────────────
+Pillow>=9.0
+imutils>=0.5
+
+# ── Transformer / Vision Model Utilities ───────────────────
+timm>=0.6
+einops>=0.6
+ml-collections>=0.1.1
+
+# ── Medical Image Processing ──────────────────────────────
+medpy>=0.4
+SimpleITK>=2.1
+
+# ── Configuration & Serialization ─────────────────────────
+PyYAML>=5.4
+yacs>=0.1.8
+
+# ── Logging & Visualization ──────────────────────────────
+matplotlib>=3.5
+tensorboardX>=2.5
+tqdm>=4.62
+
+# ── Misc Utilities ────────────────────────────────────────
+joblib>=1.1
+deep-utils>=0.1
