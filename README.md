@@ -9,9 +9,12 @@ Official Implementation for "From Adaptation to Generalization: Adaptive Visual 
 1. [Project Structure](#project-structure)
 2. [Environment Setup](#environment-setup)
 3. [Download Weights](#download-weights)
+   - [Polyp Segmentation Weights](#polyp-segmentation-weights)
+   - [Optic Disc/Cup Segmentation Weights](#optic-disccup-segmentation-weights)
 4. [Prepare Datasets](#prepare-datasets)
 5. [Testing (Polyp Segmentation)](#testing-polyp-segmentation)
-6. [Environment Variables (Optional)](#environment-variables-optional)
+6. [Testing (Optic Disc/Cup Segmentation)](#testing-optic-disccup-segmentation)
+7. [Environment Variables (Optional)](#environment-variables-optional)
 
 ---
 
@@ -22,28 +25,37 @@ apex/
 ├── requirements.txt
 ├── README.md
 ├── dataset_exp/                          # Datasets (see below)
-│   ├── CVC-ClinicDB_0_0/
+│   ├── CVC-ClinicDB_0_0/                 # Polyp datasets
 │   ├── Kvasir-SEG_3_3/
 │   ├── ETIS-LaribPolypDB/
-│   └── CVC-ColonDB/
+│   ├── CVC-ColonDB/
+│   └── Fundus/                           # Optic datasets
+│       ├── REFUGE_0/
+│       ├── REFUGE_Valid_3/
+│       ├── Drishti_GS_0/
+│       └── RIM_ONE_r3/
 ├── outputs/
-│   └── polyp/
-│       ├── pretrained_weights/           # Pretrained segmentation model weights
-│       │   ├── pretrain-PraNet.pth
-│       │   ├── pretrain-TransUNet.pth
-│       │   └── pretrain-SwinUNet.pth
-│       └── memory_weights/               # Trained prompt memory weights
-│           └── prompt_memory_polyp_PraNet_..._best.pth
+│   ├── polyp/
+│   │   ├── pretrained_weights/           # Polyp pretrained segmentation weights
+│   │   └── memory_weights/               # Polyp prompt memory weights
+│   └── optic/
+│       ├── pretrained_weights/           # Optic pretrained segmentation weights
+│       └── memory_weights/               # Optic prompt memory weights
 ├── models/                               # Model architectures (source code)
 ├── loss/                                 # Loss functions
 └── src/
-    └── polyp/
-        ├── memory_prompt_testing.py      # Testing script
-        ├── memory_prompt_training.py     # Training script
-        ├── memory/                       # Memory modules
-        ├── dataloader/                   # Data loaders
-        ├── prompt/                       # Visual prompt modules
-        └── configs/                      # Model configs
+    ├── polyp/
+    │   ├── memory_prompt_testing.py       # Polyp testing script
+    │   ├── memory_prompt_training.py      # Polyp training script
+    │   ├── memory/                        # Memory modules
+    │   ├── dataloader/                    # Data loaders
+    │   ├── prompt/                        # Visual prompt modules
+    │   └── configs/                       # Model configs
+    └── optic/
+        ├── memory_prompt_testing.py       # Optic testing script
+        ├── memory_storage_training.py     # Optic training script
+        ├── memory/                        # Memory modules
+        └── dataloader/                    # Data loaders
 ```
 
 ---
@@ -88,7 +100,9 @@ apex/
 
 Download the pretrained segmentation weights and the trained prompt memory weights from the links below and place them in the corresponding folders.
 
-### Pretrained Segmentation Weights
+### Polyp Segmentation Weights
+
+#### Pretrained Segmentation Weights (Polyp)
 
 | Model | Download Link | Place in |
 |---|---|---|
@@ -96,7 +110,7 @@ Download the pretrained segmentation weights and the trained prompt memory weigh
 | TransUNet | [link](https://drive.google.com/file/d/1gY0gaXqbOWQeAnaFaxvnf20K0iS1DLB-/view?usp=sharing) | `outputs/polyp/pretrained_weights/pretrain-TransUNet.pth` |
 | SwinUNet | [link](https://drive.google.com/file/d/1Oa91aqcZndY_s5zmbGEwRcJMFwaVIpPx/view?usp=sharing) | `outputs/polyp/pretrained_weights/pretrain-SwinUNet.pth` |
 
-### Prompt Memory Weights
+#### Prompt Memory Weights (Polyp)
 
 | Model | Download Link | Place in |
 |---|---|---|
@@ -104,9 +118,9 @@ Download the pretrained segmentation weights and the trained prompt memory weigh
 | TransUNet | [link](https://drive.google.com/file/d/1EWf5MlhtcEAW82iVoDGlC1XZ8vMul253/view?usp=sharing) | `outputs/polyp/memory_weights/` |
 | SwinUNet | [link](https://drive.google.com/file/d/1IBJvg_J6t3H17IOxh6bM4JsO3fPZEQhd/view?usp=sharing) | `outputs/polyp/memory_weights/` |
 
-> **Naming convention for memory weights:** The testing script auto-detects `.pth` files inside `outputs/polyp/memory_weights/` by matching the model name in the filename (e.g., a file containing `PraNet` in its name will be picked when testing PraNet). Files with `best` or `last` in the name are preferred.
+> **Naming convention for memory weights:** The testing script auto-detects `.pth` files inside the `memory_weights/` folder by matching the model name in the filename. Files with `best` or `last` in the name are preferred.
 
-After downloading, your folder should look like:
+After downloading, your polyp weights folder should look like:
 
 ```
 outputs/polyp/
@@ -120,11 +134,49 @@ outputs/polyp/
     └── prompt_memory_polyp_SwinUNet_..._best.pth
 ```
 
+### Optic Disc/Cup Segmentation Weights
+
+#### Pretrained Segmentation Weights (Optic)
+
+| Model | Download Link | Place in |
+|---|---|---|
+| UNet | [link](https://drive.google.com/file/d/1p5fF3-fhIkgkwfbRs3tEMouUKKMOHLXm/view?usp=sharing) | `outputs/optic/pretrained_weights/pretrain-UNet.pth` |
+| ResUnet | [link](https://drive.google.com/file/d/1j3hRT7KbMak8JHKYnA6XnSOxPKGhkj2Z/view?usp=sharing) | `outputs/optic/pretrained_weights/pretrain-ResUnet.pth` |
+| TransUNet | [link](https://drive.google.com/file/d/1zINhiZyIPuuGjXR5wpBHfS8RV9ijILl4/view?usp=sharing) | `outputs/optic/pretrained_weights/pretrain-TransUNet.pth` |
+| SwinUNet | [link](https://drive.google.com/file/d/1G7Mp72vAWxD3hMG1yaJpzOzrJvNVFUuV/view?usp=sharing) | `outputs/optic/pretrained_weights/pretrain-SwinUNet.pth` |
+
+#### Prompt Memory Weights (Optic)
+
+| Model | Download Link | Place in |
+|---|---|---|
+| UNet | [link](https://drive.google.com/file/d/1QIo0rCI3HB0sEl7FtzgIREO38oUSiBCg/view?usp=sharing) | `outputs/optic/memory_weights/` |
+| ResUnet | [link](https://drive.google.com/file/d/1G7JLFTUujYmZezRsnjBudvIucWRMP74M/view?usp=sharing) | `outputs/optic/memory_weights/` |
+| TransUNet | [link](https://drive.google.com/file/d/18LiI1jUdVgak-x-TVwPJ2BVIyjFQU2Tk/view?usp=sharing) | `outputs/optic/memory_weights/` |
+| SwinUNet | [link](https://drive.google.com/file/d/1kYoORGdPnvXYM0E8t0g88Kb7e26p2f3d/view?usp=sharing) | `outputs/optic/memory_weights/` |
+
+After downloading, your optic weights folder should look like:
+
+```
+outputs/optic/
+├── pretrained_weights/
+│   ├── pretrain-UNet.pth
+│   ├── pretrain-ResUnet.pth
+│   ├── pretrain-TransUNet.pth
+│   └── pretrain-SwinUNet.pth
+└── memory_weights/
+    ├── prompt_memory_optic_UNet_..._best.pth
+    ├── prompt_memory_optic_ResUnet_..._best.pth
+    ├── prompt_memory_optic_TransUNet_..._best.pth
+    └── prompt_memory_optic_SwinUNet_..._best.pth
+```
+
 ---
 
 ## Prepare Datasets
 
-Download the polyp segmentation datasets and place them under the `dataset_exp/` folder at the project root:
+Download the datasets and place them under the `dataset_exp/` folder at the project root.
+
+### Polyp Segmentation Datasets
 
 ```
 dataset_exp/
@@ -143,6 +195,28 @@ dataset_exp/
 └── CVC-ColonDB/            # No test/ subfolder for this dataset
     ├── image/
     └── mask/
+```
+
+### Optic Disc/Cup Segmentation Datasets
+
+```
+dataset_exp/Fundus/
+├── REFUGE_0/
+│   └── test/
+│       ├── image/
+│       └── mask/
+├── REFUGE_Valid_3/
+│   └── test/
+│       ├── image/
+│       └── mask/
+├── Drishti_GS_0/
+│   └── test/
+│       ├── image/
+│       └── mask/
+└── RIM_ONE_r3/
+    └── test/
+        ├── image/
+        └── mask/
 ```
 
 ---
@@ -174,6 +248,36 @@ The script will automatically:
 
 ---
 
+## Testing (Optic Disc/Cup Segmentation)
+
+Run the testing script from the `src/optic/` directory. Select the model with the `--model` flag.
+
+**Available models:** `UNet`, `ResUnet`, `TransUNet`, `SwinUNet`
+
+```bash
+cd src/optic
+
+# Test with UNet (default)
+python memory_prompt_testing.py --model UNet
+
+# Test with ResUnet
+python memory_prompt_testing.py --model ResUnet
+
+# Test with TransUNet
+python memory_prompt_testing.py --model TransUNet
+
+# Test with SwinUNet
+python memory_prompt_testing.py --model SwinUNet
+```
+
+The script will automatically:
+- Load the pretrained segmentation weights from `outputs/optic/pretrained_weights/`
+- Load the prompt memory weights from `outputs/optic/memory_weights/`
+- Evaluate on all four target domains: REFUGE, REFUGE_Valid, Drishti_GS, RIM_ONE_r3
+- Print Dice, mIoU, Precision, and Recall scores for each domain
+
+---
+
 ## Environment Variables (Optional)
 
 You can override the default paths using environment variables if your data or weights are stored elsewhere:
@@ -182,8 +286,8 @@ You can override the default paths using environment variables if your data or w
 |---|---|---|
 | `APEX_PROJECT_ROOT` | Project root directory | Auto-detected from script location |
 | `APEX_DATA_ROOT` | Root folder containing `dataset_exp/` | Same as project root |
-| `APEX_MODEL` | Model name (`PraNet`, `TransUNet`, `SwinUNet`) | `PraNet` |
-| `APEX_MEMORY_PATH` | Explicit path to a memory weight file | Auto-detected from `outputs/polyp/memory_weights/` |
+| `APEX_MODEL` | Model name (polyp: `PraNet`, `TransUNet`, `SwinUNet`; optic: `UNet`, `ResUnet`, `TransUNet`, `SwinUNet`) | `PraNet` (polyp) / `UNet` (optic) |
+| `APEX_MEMORY_PATH` | Explicit path to a memory weight file | Auto-detected from `outputs/<task>/memory_weights/` |
 
 Example:
 
